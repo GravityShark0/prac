@@ -20,9 +20,14 @@ int main(int argc, char *argv[])
     };
 
     struct map maps[] = {
+        {2, "Qux"},
         {3, "Foo"},
+        {4, "Corge"},
         {5, "Bar"},
-        {7, "Baz"}
+        {6, "Grault"},
+        {7, "Baz"},
+        {8, "Waldo"},
+        {9, "Fred"},
     };
 
 
@@ -39,7 +44,11 @@ int main(int argc, char *argv[])
         }
         if (isDivisible == true)
         {
-            printf("%d\n", i);
+            printf(" %d\n", i);
+        }
+        else
+        {
+            printf("THEPRIMEAGEN %d\n",i);
         }
     }
 
