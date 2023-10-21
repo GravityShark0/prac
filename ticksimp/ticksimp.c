@@ -21,14 +21,17 @@ int main(int argc, char *argv[])
     /* main loop */
     while (board)
     {
-        if (count % 2 == 0)
-        {
-            timmy = 'O';
-        }
-        else if (count % 2 != 0)
-        {
-            timmy = 'X';
-        }
+        /* if (count % 2 == 0) */
+        /* { */
+        /*     timmy = 'O'; */
+        /* } */
+        /* else if (count % 2 != 0) */
+        /* { */
+        /*     timmy = 'X'; */
+        /* } */
+
+        timmy = ((count % 2) == 0) ? 'O' : 'X';
+
         printf("It is %c's turn\n",timmy);
         
         char* input = malloc(sizeof(char[2]));
