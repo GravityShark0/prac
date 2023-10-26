@@ -1,12 +1,13 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 
 void view(FILE* INPUT_FILE);
-int copy(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
-int encode(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
-int decode(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
+void copy(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
+void encode(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
+void decode(FILE* INPUT_FILE, FILE* OUTPUT_FILE);
 void delete(FILE* INPUT_FILE, const char* INPUT_FILE_NAME);
 
 static int compare_commands(const void *p1, const void *p2)
@@ -142,20 +143,59 @@ void view(FILE* INPUT_FILE){
    }
 }
 
-int copy(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
+void copy(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
    char c;
    while (fread(&c, sizeof(char), 1, INPUT_FILE))
    {
       fwrite(&c, sizeof(char), 1, OUTPUT_FILE);
    }
-   return 0;
+   return;
 }
 
-int encode(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
-   return 0;
+void encode(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
+
+   char inputBuffer[1024];
+
+   while (fgets(inputBuffer, sizeof(inputBuffer), INPUT_FILE) != NULL) {
+      int length = strlen(inputBuffer);
+
+      for (int i = 0; i < length; i++) {
+         int count = 1;
+
+         while (i < length - 1 && inputBuffer[i] == inputBuffer[i + 1]) {
+            count++;
+            i++;
+         }
+
+         fprintf(OUTPUT_FILE, "%c%d", inputBuffer[i], count);
+      }
+   }
+
+   return;
 }
-int decode(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
-   return 0;
+void decode(FILE* INPUT_FILE, FILE* OUTPUT_FILE) {
+   char inputBuffer[1024];
+
+   while (fgets(inputBuffer, sizeof(inputBuffer), INPUT_FILE) != NULL) {
+
+      int length = strlen(inputBuffer);
+      int i = 0;
+
+      while (i < length) {
+         char character = inputBuffer[i];
+         i++;
+
+         int count = 0;
+         while (i < length && isdigit(inputBuffer[i])) {
+            count = count * 10 + (inputBuffer[i] - '0');
+            i++;
+         }
+
+         for (int j = 0; j < count; j++) {
+            fprintf(OUTPUT_FILE, "%c", character);
+         }
+      }
+   }
 }
 
 void delete(FILE* INPUT_FILE, const char* INPUT_FILE_NAME) {
