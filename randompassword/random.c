@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
         srandom(time(NULL));
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < atoi(argv[1]); i++) {
                 printf("%c", ((int)random() % 78) + 48);
         }
         puts("\n");
